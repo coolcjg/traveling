@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header.jsp"%>
 
-
+<%-- 게시글 내용 표시 --%>
 <div class="row border">
 	<div class="col-lg-12">
 		게시글
@@ -38,15 +38,22 @@
 			
 			<form id='operForm' action="/board/modify" method="get">
 				<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno }"/>'>
+				<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+				<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+				<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
+				<input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 			</form>
 	</div>
 </div>
+<%-- 게시글 내용 표시  end--%>
 
 
 
-<%--수정, 삭제버튼 누를때 함수설정 --%>
 <script type="text/javascript">
+
 $(document).ready(function(){
+	
+	<%--수정, 삭제버튼 누를때 함수설정 --%>
 	var operForm = $("#operForm");
 	$("button[data-oper='modify']").on("click", function(e){
 		operForm.attr("action", "/board/modify").submit();
@@ -57,6 +64,8 @@ $(document).ready(function(){
 		operForm.attr("action", "/board/list")
 		operForm.submit();
 	})
+	<%--수정, 삭제버튼 누를때 함수설정 끝 --%>
+	
 })
 </script>
 

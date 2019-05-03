@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.cjg.domain.BoardVO;
+import com.cjg.domain.Criteria;
 import com.cjg.mapper.BoardMapper;
 
 import lombok.AllArgsConstructor;
@@ -45,9 +46,15 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> getList() {
-		log.info("getList..............");
-		return mapper.getList();
+	public List<BoardVO> getList(Criteria cri) {
+		log.info("get List with criteria : " + cri);
+		return mapper.getListWithPaging(cri);
+	}
+	
+	@Override
+	public int getTotal(Criteria cri) {
+		log.info("get total count");
+		return mapper.getTotalCount(cri);
 	}
 	
 
