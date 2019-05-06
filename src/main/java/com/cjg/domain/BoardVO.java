@@ -15,5 +15,7 @@ public class BoardVO {
 	private Date updateDate;
 	private Long likeCnt;
 	private Long viewCnt;
+	
+	private int replyCnt;
 
 }

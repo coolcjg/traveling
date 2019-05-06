@@ -62,11 +62,11 @@
 <select id="getListWithPaging" resultType="com.cjg.domain.BoardVO">
 <![CDATA[
 select 
- bno, title, content, likeCnt, viewCnt, writer, regdate    
+ bno, title, content, likeCnt, viewCnt, writer, regdate, replycnt
 from
  (
  select /*+INDEX_DESC(tbl_notice_board pk_tbl_notice_board) */ 
-  rownum rn, bno, title, content, likeCnt, viewCnt, writer, regdate   
+  rownum rn, bno, title, content, likeCnt, viewCnt, writer, regdate, replycnt   
  from 
   tbl_notice_board 
  where  
@@ -86,6 +86,10 @@ where
 	<include refid="criteria"></include> 
 	bno>0
 </select>
+
+<update id="updateReplyCnt">
+	update tbl_notice_board set replycnt = replycnt +#{amount} where bno=#{bno}
+</update>
 
 
 </mapper>	

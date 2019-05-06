@@ -35,7 +35,7 @@
 		<tbody>
 			<tr>
 				<td><c:out value="${board.bno}"/></td>
-				<td><a class='move' href='<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td>
+				<td><a class='move' href='<c:out value="${board.bno}"/>'><c:out value="${board.title}"/><b>[<c:out value="${board.replyCnt}"/>]</b></a></td>
 				<td>1</td>
 				<td><c:out value="${board.likeCnt}"/></td>
 				<td><c:out value="${board.viewCnt}"/></td>
