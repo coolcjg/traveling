@@ -1,6 +1,7 @@
 package com.cjg.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -17,5 +18,7 @@ public class BoardVO {
 	private Long viewCnt;
 	
 	private int replyCnt;
+	
+	private List<BoardAttachVO> attachList;
 
 }
