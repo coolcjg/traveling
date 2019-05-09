@@ -16,4 +16,10 @@
 <select id="findByBno" resultType = "com.cjg.domain.BoardAttachVO">
 	select * from tbl_notice_attach where bno = #{bno}
 </select>
-</mapper>	
+
+<delete id="deleteAll">
+	delete tbl_notice_attach where bno=#{bno}
+</delete>
+
+
+</mapper>
