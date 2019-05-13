@@ -25,8 +25,17 @@
 			<!-- 로그인에 성공했을 때 처리. -->
 			<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
 			
-			<!-- 로그아웃 처리 -->
+			<!-- 로그아웃 처리
 			<security:logout logout-url="/customLogout" invalidate-session="true"/>
+			 -->
+			 
+			<!--  자동 로그인 처리 -->
+			<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
+			
+			<!-- 로그아웃시 쿠키삭제 -->
+			<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSION_ID"/>
+			
+			
 		</security:http>
 		
 		
@@ -40,6 +49,7 @@
 				authorities-by-username-query="select userid, auth from tbl_member_auth where userid=?"/> -->
 				
 				<security:password-encoder ref="bcryptPasswordEncoder"/>
+				
 			</security:authentication-provider>
 		</security:authentication-manager>
 </beans>

@@ -28,6 +28,7 @@
 	<beans:bean id="multipartResulver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>	
 	
+	<!--  스프링 시큐리티 어노테이션을 사용하기 위해서 servlet-context.xml파일에 설정한다. -->
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>	
 	
 </beans:beans>
