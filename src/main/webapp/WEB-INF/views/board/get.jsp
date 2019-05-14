@@ -363,6 +363,18 @@ $(document).ready(function(){
     var modalRegisterBtn = $("#modalRegisterBtn");
     var modalCloseBtn = $("#modalCloseBtn");
     
+    var replyer = null;
+    
+    <sec:authorize access="isAuthenticated()">
+    	replyer='<sec:authentication property="principal.username"/>';
+    </sec:authorize>
+    
+    var csrfHeaderName = "${_csrf.headerName}";
+    var csrfTokenValue="${_csrf.token}";
+    
+
+    
+    
     $("#modalCloseBtn").on("click", function(e){
     	$(".modal").modal("hide");
     })
@@ -371,6 +383,7 @@ $(document).ready(function(){
     $("#addReplyBtn").on("click", function(e){
         
         modal.find("input").val("");
+        modal.find("input[name='replyer']").val(replyer);
         modalInputReplyDate.closest("div").hide();
         modal.find("button[id !='modalCloseBtn']").hide();
         
@@ -378,6 +391,12 @@ $(document).ready(function(){
         
         $(".modal").modal("show");
       });
+    
+    //Ajax spring security header......
+    $(document).ajaxSend(function(e, xhr, options){
+    	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+    });
+    
     
     modalRegisterBtn.on("click", function(e){
     	var reply = {
@@ -396,10 +415,27 @@ $(document).ready(function(){
     
     
     modalModBtn.on("click", function(e){
-    	var reply = {rno:modal.data("rno"), reply:modalInputReply.val()};
+    	
+    	var originalReplyer = modalInputReplyer.val();
+    	
+    	var reply = {rno:modal.data("rno"), reply:modalInputReply.val(), replyer:originalReplyer};
+    	
+    	if(!replyer){
+    		alert("로그인 후 수정이 가능합니다.");
+    		modal.modal("hide");
+    		return;
+    	}
+    	
+    	console.log("Original Replyer : " + originalReplyer);
+    	
+    	if(replyer !=originalReplyer){
+    		alert("자신이 작성한 댓글만 수정이 가능합니다.");
+    		modal.modal("hide");
+    		return;
+    	}
     	
     	replyService.update(reply, function(result){
-    		alerty(result);
+    		alert(result);
     		modal.modal("hide");
     		showList(pageNum);
     	});
@@ -408,12 +444,32 @@ $(document).ready(function(){
     modalRemoveBtn.on("click", function(e){
     	var rno = modal.data("rno");
     	
-    	replyService.remove(rno, function(result){
+    	console.log("RNO: " + rno);
+    	console.log("REPLYER: " + replyer);
+    	
+    	if(!replyer){
+    		alert("로그인 후 삭제가 가능합니다.");
+    		modal.modal("hide");
+    		return;
+    	}
+    	
+    	var originalReplyer = modalInputReplyer.val();
+    	
+    	//댓글의 원래 작성자
+    	console.log("Original Replyer : " + originalReplyer);
+    	
+    	if(replyer != originalReplyer){
+    		alert("자신이 작성한 댓글만 삭제가 가능합니다.");
+    		modal.modal("hide");
+    		return;
+    	}
+    	
+    	replyService.remove(rno, originalReplyer, function(result){
     		alert(result);
     		modal.modal("hide");
     		showList(pageNum);
-    	})
-    })
+    	});
+    });
     <!-- 모달창 설정  끝-->
     
     

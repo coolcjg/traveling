@@ -9,19 +9,16 @@
 	width: 100%;
 	background-color: gray;
 }
-
 .uploadResult ul {
 	display: flex;
 	flex-flow: row;
 	justify-content: center;
 	align-items: center;
 }
-
 .uploadResult ul li {
 	list-style: none;
 	padding: 10px;
 }
-
 .uploadResult ul li img {
 	width: 100px;
 }
@@ -39,7 +36,6 @@
   background-color: gray; 
   z-index: 100;
 }
-
 .bigPicture {
   position: relative;
   display:flex;
@@ -55,8 +51,8 @@
 <div class="row border">
 	<div class="col-lg-12">
 		<form role="form" action="/board/register" method="post">
-		<!-- 스프링시큐리티에서는 post를 처리할때 csrf토큰값을 추가한다. -->
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}/>
+			
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<div class="form-group">
 				<label>제목</label> <input type="text" class="form-control"
 					name="title">
@@ -68,8 +64,8 @@
 			</div>
 
 			<div class="form-group">
-				<label>글쓴이</label> <input type="text" class="form-control"	name="writer" 
-											value='<sec:authentication property="principal.username"/>' readonly="readonly">
+				<label>글쓴이</label> <input type="text" class="form-control"
+					name="writer" value='<sec:authentication property="principal.username"/>' readonly="readonly">
 			</div>
 
 			<button type="submit" class="btn btn-primary">Submit</button>
@@ -123,6 +119,9 @@ $(document).ready(function(e){
 		$.ajax({
 			url:'/deleteFile',
 			data:{fileName:targetFile, type:type},
+			beforeSend:function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+			},
 			dataType:'text',
 			type:'POST',
 			success:function(result){
@@ -172,8 +171,10 @@ $(document).ready(function(e){
 		    return true;
 	   }
 	
+	  var csrfHeaderName = "${_csrf.headerName}";
+	  var csrfTokenValue="${_csrf.token}";
+	 
 	  $("input[type='file']").change(function(e){
-
 		    var formData = new FormData();
 		    
 		    var inputFile = $("input[name='uploadFile']");
@@ -181,7 +182,6 @@ $(document).ready(function(e){
 		    var files = inputFile[0].files;
 		    
 		    for(var i = 0; i < files.length; i++){
-
 		      if(!checkExtension(files[i].name, files[i].size) ){
 		        return false;
 		      }
@@ -193,13 +193,15 @@ $(document).ready(function(e){
 		      url: '/uploadAjaxAction',
 		      processData: false, 
 		      contentType: false,
+		      beforeSend:function(xhr){
+		    	  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		      },
 		      data:formData,
 		      type: 'POST',
 		      dataType:'json',
 		        success: function(result){
 		          console.log(result); 
 				  showUploadResult(result); //업로드 결과 처리 함수 
-
 		      }
 		    }); //$.ajax
 		    

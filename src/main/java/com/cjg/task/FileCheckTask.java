@@ -42,7 +42,7 @@ public class FileCheckTask {
 	
 	
 	
-	@Scheduled(cron="0 * * * * *")
+	@Scheduled(cron="0 0 22 * * *")
 	public void checkFiles() throws Exception{
 		log.warn("File Check Task run......................");
 		log.warn(new Date());

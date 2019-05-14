@@ -216,6 +216,9 @@ $(document).ready(function(){
 		    return true;
 	   }
 	 
+	 var csrfHeaderName="${_csrf.headerName}";
+	 var csrfTokenValue="${_csrf.token}";
+	 
 	 
 	 <%-- 파일 등록작업 --%>
 	  $("input[type='file']").change(function(e){
@@ -241,6 +244,9 @@ $(document).ready(function(){
 		      contentType: false,
 		      data:formData,
 		      type: 'POST',
+		      beforeSend : function(xhr){
+		    	  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		      },
 		      dataType:'json',
 		        success: function(result){
 		          console.log(result); 
