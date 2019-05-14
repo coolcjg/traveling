@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../includes/header.jsp"%>
 <style>
 .uploadResult {
@@ -54,6 +55,8 @@
 <div class="row border">
 	<div class="col-lg-12">
 		<form role="form" action="/board/register" method="post">
+		<!-- 스프링시큐리티에서는 post를 처리할때 csrf토큰값을 추가한다. -->
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}/>
 			<div class="form-group">
 				<label>제목</label> <input type="text" class="form-control"
 					name="title">
@@ -65,8 +68,8 @@
 			</div>
 
 			<div class="form-group">
-				<label>글쓴이</label> <input type="text" class="form-control"
-					name="writer">
+				<label>글쓴이</label> <input type="text" class="form-control"	name="writer" 
+											value='<sec:authentication property="principal.username"/>' readonly="readonly">
 			</div>
 
 			<button type="submit" class="btn btn-primary">Submit</button>

@@ -6,8 +6,10 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
 		<bean id="customAccessDenied" class="com.cjg.security.CustomAccessDeniedHandler"></bean>
-		<bean id="customLoginSuccess" class="com.cjg.security.CustomLoginSuccessHandler"></bean>
 		
+		<!-- 
+		<bean id="customLoginSuccess" class="com.cjg.security.CustomLoginSuccessHandler"></bean>
+		 -->
 		<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 		
 		<bean id="customUserDetailsService" class="com.cjg.security.CustomUserDetailsService"></bean>
@@ -22,8 +24,8 @@
 			<security:access-denied-handler ref="customAccessDenied"/>
 			
 			
-			<!-- 로그인에 성공했을 때 처리. -->
-			<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
+			
+			<security:form-login login-page="/customLogin"/>
 			
 			<!-- 로그아웃 처리
 			<security:logout logout-url="/customLogout" invalidate-session="true"/>

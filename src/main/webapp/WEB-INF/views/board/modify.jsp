@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../includes/header.jsp"%>
 <style>
 .uploadResult {
@@ -58,6 +59,7 @@
 <div class="row border">
 	<div class="col-lg-12">
 		<form role="form" action="/board/modify" method="post">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<div class="form-group">
 				<label>글 번호</label> <input type="text" class="form-control"
 					name="bno" value='<c:out value="${board.bno}"/>' readonly="readonly">
@@ -78,8 +80,17 @@
 					name="writer" value='<c:out value="${board.writer}"/>' readonly="readonly">
 			</div>
 
-			<button type="submit" data-oper='modify' class="btn btn-primary">Modify</button>
-			<button type="submit" data-oper='remove' class="btn btn-primary">Remove</button>
+			
+			<sec:authentication property="principal" var="pinfo"/>
+
+			<sec:authorize access="isAuthenticated()">
+				<c:if test="${pinfo.username eq board.writer }">
+					<button type="submit" data-oper='modify' class="btn btn-primary">Modify</button>
+					<button type="submit" data-oper='remove' class="btn btn-primary">Remove</button>
+				</c:if>
+			</sec:authorize>
+			
+			
 			<button type="submit" data-oper='list' class="btn btn-primary">List</button>
 			
 			<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
