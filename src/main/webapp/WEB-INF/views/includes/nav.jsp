@@ -16,43 +16,27 @@
 			<br>
 
 			<%-- login form --%>
-			<sec:authorize access="isAuthenticated()">
-				<a href="/customLogout"> <i class="fa fa-sign-out fa-fw"></i>Logout
-				</a>
-			</sec:authorize>
-
-			<sec:authorize access="isAnonymous()">
-				<a href="/customLogin"> <i class="fa fa-sign-out fa-fw"></i>Login
-				</a>
-			</sec:authorize>
-
-
-			<!-- 
-				<form class="border">
+				<form action="/member/login" method="post" class="border">
 					<div class="form-group">
-						<input type="email" class="form-control" id="exampleInputEmail1"
-							aria-describedby="emailHelp" placeholder="ID">
+						<input type="text" name="uid" class="form-control" placeholder="ID"/>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control"
-							id="exampleInputPassword1" placeholder="Password">
+						<input type="password" name="upw" class="form-control" placeholder="Password">
 					</div>
-
-					<div class="form-group form-check">
-						<input type="checkbox" class="form-check-input" id="exampleCheck1">
-						<label class="form-check-label" for="exampleCheck1">자동 로그인</label>
-					</div>
-
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<div class="form-group">
+						<label>
+							<input type="checkbox" name="useCookie">Remember Me
+						</label>
+					</div>					
+					
+					<button type="submit" class="btn btn-primary">로그인</button>
 					&nbsp;&nbsp;&nbsp;
-					<button type="submit" class="btn btn-primary">Join</button>
+					<button type="submit" class="btn btn-primary">회원가입</button>
 				</form>
-				 -->
 
 			<br>
 
 			<%-- nav --%>
-
 			<div class="border">
 				<ul class="nav flex-column">
 					<li class="nav-item"><a class="nav-link active"
@@ -63,5 +47,4 @@
 
 				</ul>
 			</div>
-
 			<br>

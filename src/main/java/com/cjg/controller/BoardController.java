@@ -58,7 +58,7 @@ public class BoardController {
 		model.addAttribute("board", service.get(bno));
 	}
 	
-	@PreAuthorize("principal.username == #board.writer")
+	
 	@PostMapping("/modify")
 	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
 		log.info("modify : " + board);
@@ -75,9 +75,8 @@ public class BoardController {
 		return "redirect:/board/list" + cri.getListLink();
 	}
 	
-	@PreAuthorize("principal.username==#writer")
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr, String writer) {
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
 		log.info("remove...." + bno);
 		
 		List<BoardAttachVO> attachList = service.getAttachList(bno);
@@ -92,13 +91,11 @@ public class BoardController {
 	}
 	
 	@GetMapping("/register")
-	@PreAuthorize("isAuthenticated()")
 	public void register() {
 		
 	}
 	
 	@PostMapping("/register")
-	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("==============================");
 		log.info("register : " + board);
